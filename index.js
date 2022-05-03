@@ -15,12 +15,22 @@ const client = new MongoClient(uri, {
   useUnifiedTopology: true,
   serverApi: ServerApiVersion.v1,
 });
-client.connect((err) => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  console.log("db connected");
-  client.close();
-});
+async function run() {
+  try {
+    await client.connect();
+    const sportCollections = client.db("Sports").collection("item");
+
+    //LOAD ALL ITEM
+    app.get("/items", async (req, res) => {
+      const query = {};
+      const cursor = sportCollections.find(query);
+      const items = await cursor.toArray();
+      res.send(items);
+    });
+  } finally {
+  }
+}
+run().catch(console.dir);
 
 //GET
 app.get("/", (req, res) => {
