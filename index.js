@@ -34,7 +34,7 @@ run().catch(console.dir);
 
 //ROOT API
 app.get("/", (req, res) => {
-  res.send("server is running");
+  res.send("server is running on the server");
 });
 
 //LISTENING TO PORT
