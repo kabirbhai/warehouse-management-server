@@ -32,7 +32,7 @@ async function run() {
 }
 run().catch(console.dir);
 
-//GET
+//ROOT API
 app.get("/", (req, res) => {
   res.send("server is running");
 });
