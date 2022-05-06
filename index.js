@@ -1,5 +1,5 @@
 const express = require("express");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const cors = require("cors");
 require("dotenv").config();
 const app = express();
@@ -9,6 +9,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+//MONGODB CONNECTION
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.zj0qa.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
@@ -20,12 +21,20 @@ async function run() {
     await client.connect();
     const sportCollections = client.db("Sports").collection("item");
 
-    //LOAD ALL ITEM
+    //LOAD ALL data
     app.get("/items", async (req, res) => {
       const query = {};
       const cursor = sportCollections.find(query);
       const items = await cursor.toArray();
       res.send(items);
+    });
+
+    // LOAD SINGLE DATA
+    app.get("/items/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const item = await sportCollections.findOne(query);
+      res.send(item);
     });
   } finally {
   }
