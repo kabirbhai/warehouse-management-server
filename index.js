@@ -28,6 +28,10 @@ async function run() {
       res.send(products);
     });
 
+    // app.post('/addItem', async(req,res)=>{
+    //   const
+    // })
+
     // load one data
     app.get("/product/:id", async (req, res) => {
       const Id = req.params.id;
